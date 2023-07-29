@@ -1,4 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
+import { typography } from './mixins';
 
 const GlobalStyle = createGlobalStyle`
   html, body, div, span, applet, object, iframe,
@@ -34,7 +35,7 @@ const GlobalStyle = createGlobalStyle`
   }
   body {
     line-height: 1;
-    font-size: 1.6rem;
+    ${typography({ size: 'medium' })}
   }
   ol, ul {
     list-style: none;
