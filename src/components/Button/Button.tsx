@@ -5,11 +5,11 @@ type ButtonProps = {
   type?: 'button' | 'submit' | 'reset';
   children: React.ReactNode;
   onClick: MouseEventHandler;
-  style: string;
+  buttonStyle: string;
 };
-const Button = ({ type = 'button', children, onClick, style }: ButtonProps) => {
+const Button = ({ type = 'button', children, onClick, buttonStyle }: ButtonProps) => {
   return (
-    <ButtonStyle type={type} onClick={onClick} buttonStyle={style}>
+    <ButtonStyle type={type} onClick={onClick} buttonStyle={buttonStyle}>
       {children}
     </ButtonStyle>
   );

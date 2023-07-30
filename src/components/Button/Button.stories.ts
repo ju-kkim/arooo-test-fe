@@ -17,7 +17,7 @@ export const ListButton: Story = {
     onClick: () => {
       console.log('목록 버튼');
     },
-    style: `
+    buttonStyle: `
       padding: 5px 10px;
       border: 1px solid black
     `,
@@ -30,7 +30,7 @@ export const LikeButton: Story = {
     onClick: () => {
       console.log('좋아요 버튼');
     },
-    style: `
+    buttonStyle: `
       padding: 5px 10px;
     `,
   },
