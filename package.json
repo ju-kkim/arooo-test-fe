@@ -58,9 +58,13 @@
     "@types/styled-components": "^5.1.26",
     "babel-plugin-named-exports-order": "^0.0.2",
     "eslint-plugin-storybook": "^0.6.13",
+    "msw": "^1.2.3",
     "prop-types": "^15.8.1",
     "storybook": "^7.1.1",
     "styled-components": "^6.0.5",
     "webpack": "^5.88.2"
+  },
+  "msw": {
+    "workerDirectory": "public"
   }
 }
