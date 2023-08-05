@@ -64,6 +64,12 @@ const GlobalStyle = createGlobalStyle`
       cursor: default;
     }
   }
+
+  a {
+    text-decoration: none;
+    font:  inherit;
+    color: inherit;
+  }
 `;
 
 export default GlobalStyle;
