@@ -5,11 +5,6 @@ import { styled } from 'styled-components';
 import { flex } from 'styles/mixins';
 import { Content } from 'types/content';
 
-/* 
-TODO
-- like 기능
-*/
-
 const ListItem = ({ id, title, likes, isLike }: Content) => {
   return (
     <Item>
