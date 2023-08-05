@@ -3,25 +3,20 @@ import Title from 'components/Title/Title';
 import { Link } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { flex } from 'styles/mixins';
-
-type ListItemProps = {
-  id: string;
-  title: string;
-  likes: number;
-};
+import { Content } from 'types/content';
 
 /* 
 TODO
 - like 기능
 */
 
-const ListItem = (content: ListItemProps) => {
+const ListItem = ({ id, title, likes }: Content) => {
   return (
     <Item>
-      <ViewLink to={`/view/${content.id}`}>
-        <Title text={content.title} />
+      <ViewLink to={`/view/${id}`}>
+        <Title text={title} />
       </ViewLink>
-      <Like likes={content.likes} />
+      <Like likes={likes} />
     </Item>
   );
 };

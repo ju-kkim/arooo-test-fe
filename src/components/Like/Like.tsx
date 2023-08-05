@@ -1,9 +1,10 @@
 import Button from 'components/Button/Button';
 import { styled } from 'styled-components';
 import { flex } from 'styles/mixins';
+import { Likes } from 'types/content';
 
 type LikeProps = {
-  likes: number;
+  likes: Likes;
 };
 
 const Like = ({ likes }: LikeProps) => {
