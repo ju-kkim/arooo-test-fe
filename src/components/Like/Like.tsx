@@ -1,6 +1,8 @@
 import Button from 'components/Button/Button';
+import { useState } from 'react';
 import { flex } from 'styles/mixins';
 import { Likes } from 'types/content';
+import { fetchData } from 'utils/fetchData';
 
 type LikeProps = {
   id: string;
@@ -9,15 +11,23 @@ type LikeProps = {
 };
 
 const Like = ({ id, likes, isLike }: LikeProps) => {
+  const [isLikeState, setIsLikeState] = useState(isLike);
+  const [likeNum, setLikeNum] = useState(likes);
+
+  const clickLike = async () => {
+    const { likes, isLike } = await fetchData<{ likes: Likes; isLike: boolean }>(
+      `/library/content/${id}/like`,
+      { method: 'POST' }
+    );
+
+    setIsLikeState(isLike);
+    setLikeNum(likes);
+  };
+
   return (
-    <Button
-      onClick={() => {
-        // TODO: counter
-        console.log('좋아요');
-      }}
-      buttonStyle={LikeStyle}>
-      <span>{isLike ? '❤️' : '🤍'}</span>
-      <span>{likes}</span>
+    <Button onClick={clickLike} buttonStyle={LikeStyle}>
+      <span>{isLikeState ? '❤️' : '🤍'}</span>
+      <span>{likeNum}</span>
     </Button>
   );
 };
