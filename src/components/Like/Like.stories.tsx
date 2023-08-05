@@ -13,6 +13,8 @@ type Story = StoryObj<typeof meta>;
 
 export const LikeButton: Story = {
   args: {
+    id: 'abc',
     likes: 2,
+    isLike: false,
   },
 };

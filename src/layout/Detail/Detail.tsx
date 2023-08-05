@@ -5,12 +5,12 @@ import { styled } from 'styled-components';
 import { flex } from 'styles/mixins';
 import { ContentDetail } from 'types/content';
 
-const Detail = ({ title, likes, content }: ContentDetail) => {
+const Detail = ({ id, title, likes, content, isLike }: ContentDetail) => {
   return (
     <div>
       <HeaderWrap>
         <Title text={title} isBold={true} />
-        <Like likes={likes} />
+        <Like id={id} likes={likes} isLike={isLike} />
       </HeaderWrap>
       <BodyWrap>
         <Content>{content}</Content>

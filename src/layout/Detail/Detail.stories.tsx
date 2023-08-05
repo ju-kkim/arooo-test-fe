@@ -18,5 +18,6 @@ export const ContentDetail: Story = {
     likes: 1,
     content:
       'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ea dolor excepturi veniam libero facilis vel quis nisi tenetur iste delectus similique blanditiis consequatur error, quas fuga voluptatibus animi doloremque repudiandae!',
+    isLike: false,
   },
 };

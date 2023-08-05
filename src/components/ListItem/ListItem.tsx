@@ -10,13 +10,13 @@ TODO
 - like 기능
 */
 
-const ListItem = ({ id, title, likes }: Content) => {
+const ListItem = ({ id, title, likes, isLike }: Content) => {
   return (
     <Item>
       <ViewLink to={`/view/${id}`}>
         <Title text={title} />
       </ViewLink>
-      <Like likes={likes} />
+      <Like id={id} likes={likes} isLike={isLike} />
     </Item>
   );
 };

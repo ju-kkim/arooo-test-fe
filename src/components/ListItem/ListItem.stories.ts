@@ -16,6 +16,7 @@ export const Item: Story = {
     id: 'abcd0123efgh456',
     title: '콘텐츠 타이틀1',
     likes: 1,
+    isLike: false,
   },
 };
 
@@ -25,5 +26,6 @@ export const LongTitleItem: Story = {
     title:
       'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Expedita ipsa reiciendis vel id ab sint cupiditate, adipisci incidunt quae excepturi neque dicta quam ea! Possimus tempora voluptates nostrum dolorem fuga.',
     likes: 1,
+    isLike: false,
   },
 };

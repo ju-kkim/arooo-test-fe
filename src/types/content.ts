@@ -4,6 +4,7 @@ export type Content = {
   id: string;
   title: string;
   likes: Likes;
+  isLike: boolean;
 };
 
 export type ContentDetail = Content & {

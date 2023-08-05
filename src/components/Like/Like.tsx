@@ -1,35 +1,31 @@
 import Button from 'components/Button/Button';
-import { styled } from 'styled-components';
 import { flex } from 'styles/mixins';
 import { Likes } from 'types/content';
 
 type LikeProps = {
+  id: string;
   likes: Likes;
+  isLike: boolean;
 };
 
-const Like = ({ likes }: LikeProps) => {
+const Like = ({ id, likes, isLike }: LikeProps) => {
   return (
-    <LikeWrap>
-      <Button
-        onClick={() => {
-          // TODO: counter
-          console.log('좋아요');
-        }}
-        buttonStyle={LikeStyle}>
-        ❤️ 좋아요
-      </Button>
+    <Button
+      onClick={() => {
+        // TODO: counter
+        console.log('좋아요');
+      }}
+      buttonStyle={LikeStyle}>
+      <span>{isLike ? '❤️' : '🤍'}</span>
       <span>{likes}</span>
-    </LikeWrap>
+    </Button>
   );
 };
 
-const LikeWrap = styled.div`
+const LikeStyle = `
   ${flex({ alignItems: 'center', gap: '5px' })}
   flex-shrink: 0;
-`;
-
-const LikeStyle = `
-  padding: 5px 0
+  padding: 5px 0;
 `;
 
 export default Like;
