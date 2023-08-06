@@ -1,46 +1,170 @@
-# Getting Started with Create React App
+# Arooo test FE
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 목차
 
-## Available Scripts
+1. [Preview](#preview)
+2. [Backlog](#backlog)
+3. [구현 내용](#구현-내용)
 
-In the project directory, you can run:
+<br />
 
-### `npm start`
+# Preview
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+https://github.com/ju-kkim/payhere-test-fe/assets/68211156/7cd9da42-3398-42a2-8372-31fb583cb1f8
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- [x] 목록 화면
+- [x] 상세페이지 이동
+- [x] 좋아요 업데이트
+- [x] 상세페이지, 목록페이지 좋아요 연동
 
-### `npm test`
+<br />
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+# Backlog
 
-### `npm run build`
+User Story 노션에 작성.  
+[🔗Backlog 링크](https://energetic-cowl-a8c.notion.site/Backlog-8cfdb2e0af3f4bde85cbe9050b7946db?pvs=4)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+<br />
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+# 구현 내용
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## 목록, 상세 페이지
 
-### `npm run eject`
+react-router-dom 사용.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+```jsx
+<Routes>
+  <Route path="/" element={<Home />} />
+  <Route path="/view/:contentId" element={<View />} />
+</Routes>
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Link 사용하여 view 페이지 이동.  
+a태그 안에 button태그 넣을 수 없으므로 Title만 Link 하위로 작성.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+```jsx
+const ListItem = ({ id, title, likes, isLike }: Content) => {
+  return (
+    <Item>
+      <Link to={`/view/${id}`}>
+        <Title text={title} />
+      </Link>
+      <Like id={id} likes={likes} isLike={isLike} />
+    </Item>
+  );
+};
+```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## MSW
 
-## Learn More
+API Endpoint 작동이 되지 않기 때문에 Mock Data륾 만들어 MSW를 사용.  
+명세서에 작성해 주신 id, title, likes, content 외에 좋아요 기능 구현 시 isLike 값이 필요하다고 생각하여 추가.
+`src/mocks/handlers.ts` 파일에 Mock Data 사용하여 `GET`, `POST` 기능 구현
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```json
+[
+  {
+    "id": "1",
+    "title": "title_1",
+    "likes": 7,
+    "content": "Ut tellus. Nulla ut erat id mauris vulputate elementum. Nullam varius. Nulla facilisi. Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque.",
+    "isLike": false
+  },
+  ...(중략)
+]
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## 무한스크롤
+
+skip, limit query 사용하여 데이터 나누어 가져오도록 구현.  
+throttle 사용하여 scroll 이벤트를 제어할 수 있도록 구현. (`src/utils/throttle.ts`)
+
+```jsx
+const url = `/library/content?${querySkip}&${queryLimit}`;
+
+const fetchMoreData = async () => {
+  if (isEndData || isLoading) return;
+  setIsLoading(true);
+
+  try {
+    const newContents = await fetchData<Content[]>(url);
+    if (newContents.length < LIMIT) {
+      setIsEndData(true);
+    }
+    setContents((prevContent) => [...prevContent, ...newContents]);
+    skip.current += LIMIT;
+  } catch (error) {
+    throw new Error('ERROR CONTENTS');
+  } finally {
+    setIsLoading(false);
+  }
+}
+
+const scrollFetchMoreData = throttle(() => {
+  if (window.innerHeight + window.scrollY >= document.body.scrollHeight - INTERVAL) {
+    fetchMoreData();
+  }
+}, DELAY);
+```
+
+## 좋아요
+
+요청 내용에는 좋아요 버튼을 누를 때마다 카운트가 올라가는 것이었지만,  
+좋아요 기능은 토글 기능이 맞는 동작이라 생각되어 토글 방식으로 구현.
+
+likes 만으로 사용자가 좋아요를 했었는지 안 했는지 판별할 수 없으므로 isLike 값이 필요하여 추가하여 구현.
+
+```jsx
+const Like = ({ id, likes, isLike }: LikeProps) => {
+  const [isLikeState, setIsLikeState] = useState(isLike);
+  const [likeNum, setLikeNum] = useState(likes);
+
+  const clickLike = async () => {
+    const { likes, isLike } = await fetchData<{ likes: Likes; isLike: boolean }>(
+      `/library/content/${id}/like`,
+      { method: 'POST' }
+    );
+
+    setIsLikeState(isLike);
+    setLikeNum(likes);
+  };
+
+  return (
+    <Button onClick={clickLike} buttonStyle={LikeStyle}>
+      <span>{isLikeState ? '❤️' : '🤍'}</span>
+      <span>{likeNum}</span>
+    </Button>
+  );
+};
+```
+
+```ts
+// src/mocks/handler.ts
+// response data에 isLike 추가
+
+rest.post('/library/content/:contentId/like', (req, res, ctx) => {
+  const { contentId } = req.params;
+
+  const contentIdx = contentData.findIndex((content) => content.id === contentId);
+  const content = contentData[contentIdx];
+  const currentLikes = content.likes;
+  const currentIsLike = content.isLike;
+
+  const updateLikes = currentIsLike ? currentLikes - 1 : currentLikes + 1;
+
+  const updateContent = {
+    ...content,
+    isLike: !currentIsLike,
+    likes: updateLikes,
+  };
+
+  contentData[contentIdx] = updateContent;
+
+  const likeInfo = {
+    isLike: !currentIsLike,
+    likes: updateLikes,
+  };
+
+  return res(ctx.status(200), ctx.json(likeInfo));
+}),
+```
