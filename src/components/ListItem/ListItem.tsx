@@ -1,3 +1,4 @@
+import React from 'react';
 import Like from 'components/Like/Like';
 import Title from 'components/Title/Title';
 import { Link } from 'react-router-dom';
@@ -5,7 +6,7 @@ import { styled } from 'styled-components';
 import { flex } from 'styles/mixins';
 import { Content } from 'types/content';
 
-const ListItem = ({ id, title, likes, isLike }: Content) => {
+const ListItem = React.memo(({ id, title, likes, isLike }: Content) => {
   return (
     <Item>
       <ViewLink to={`/view/${id}`}>
@@ -14,7 +15,7 @@ const ListItem = ({ id, title, likes, isLike }: Content) => {
       <Like id={id} likes={likes} isLike={isLike} />
     </Item>
   );
-};
+});
 
 const Item = styled.li`
   ${flex({ justifyContent: 'space-between', alignItems: 'center' })}
