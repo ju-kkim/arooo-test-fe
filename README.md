@@ -10,8 +10,7 @@
 
 # Preview
 
-[preview](https://github.com/ju-kkim/arooo-test-fe/assets/68211156/b3087196-a185-4ab0-b924-03979f92c23f
-)
+https://github.com/ju-kkim/arooo-test-fe/assets/68211156/e7d2312c-51fb-4024-8872-f556f5868498
 
 - [x] 목록 화면
 - [x] 상세페이지 이동
