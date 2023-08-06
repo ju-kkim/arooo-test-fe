@@ -10,7 +10,8 @@
 
 # Preview
 
-https://github.com/ju-kkim/payhere-test-fe/assets/68211156/7cd9da42-3398-42a2-8372-31fb583cb1f8
+[preview](https://github.com/ju-kkim/arooo-test-fe/assets/68211156/b3087196-a185-4ab0-b924-03979f92c23f
+)
 
 - [x] 목록 화면
 - [x] 상세페이지 이동
